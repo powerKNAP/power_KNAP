@@ -21,12 +21,8 @@ class RoomView extends React.Component {
       playlist: sampleVideoData.slice(1),
     };
     this.updateQuery = this.updateQuery.bind(this);
-<<<<<<< HEAD
     this.search = _.debounce(this.search.bind(this), 500);
-=======
-    this.search = this.search.bind(this);
     this.saveToPlaylist = this.saveToPlaylist.bind(this);
->>>>>>> added client-side song saving functionality
   }
 
   componentDidMount() {
