@@ -21,21 +21,17 @@ class RoomView extends React.Component {
       playlist: sampleVideoData.slice(1),
     };
     this.updateQuery = this.updateQuery.bind(this);
+<<<<<<< HEAD
     this.search = _.debounce(this.search.bind(this), 500);
+=======
+    this.search = this.search.bind(this);
+    this.saveToPlaylist = this.saveToPlaylist.bind(this);
+>>>>>>> added client-side song saving functionality
   }
 
   componentDidMount() {
     // listen for server's response to search
-    socket.on('searchResults', ({ items }) => {
-      this.setState({
-        searchResults: items,
-        query: '',
-      });
-    });
     // handle errors.. kinda
-    socket.on('error', (err) => {
-      console.error(err);
-    });
   }
 
   search() {
@@ -52,6 +48,10 @@ class RoomView extends React.Component {
       .catch(err => console.error(err));
   }
 
+  saveToPlaylist(video) {
+    socket.emit('saveToPlaylist', video);
+  }
+
   render() {
     return (
       <div className="container room">
@@ -59,7 +59,7 @@ class RoomView extends React.Component {
         <VideoPlayer currentVideo={this.state.currentVideo} />
         <Playlist playlist={this.state.playlist} />
         <div className="container search">
-          <SearchResults searchResults={this.state.searchResults} />
+          <SearchResults searchResults={this.state.searchResults} saveToPlaylist={this.saveToPlaylist} />
           <Search updateQuery={this.updateQuery} search={this.search} />
         </div>
       </div>
