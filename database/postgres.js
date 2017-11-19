@@ -1,10 +1,15 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres', protocol: 'postgres', dialectOptions: { ssl: true } });
+let params = {};
+if (!process.env.LOCAL) {
+  params = { dialect: 'postgres', protocol: 'postgres', dialectOptions: { ssl: true } };
+}
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, params);
 
 sequelize.authenticate()
   .then(() => {
-    console.log('Connection has been established successfully')
+    console.log('Connection has been established successfully');
   })
   .catch((err) => {
     console.error('Unable to connect to database:', err);
