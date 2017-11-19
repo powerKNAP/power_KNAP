@@ -1,7 +1,5 @@
 const rp = require('request-promise');
-// const config = require('../config.js');
 const isoConvert = require('convert-iso8601-duration');
-const env = require('../.env')
 
 exports.grabVideos = (query) => {
   const options = {
