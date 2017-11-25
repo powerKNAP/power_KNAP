@@ -99,6 +99,7 @@ roomSpace.on('connection', (socket) => {
       .then(() => sendPlaylist());
   });
 
+<<<<<<< HEAD
   socket.on('removeFromPlaylist', (videoName) => {
     db.removeFromPlaylist(videoName)
       .then(() => sendPlaylist())
@@ -113,5 +114,10 @@ roomSpace.on('connection', (socket) => {
     } else {
       console.log(`${roomSpace.name} is now empty`);
     }
+=======
+  socket.on('emitMessage', (message) => {
+    console.log(message.body, 'this is my message text')
+    roomSpace.emit('pushingMessage', message.body);
+>>>>>>> can send messages to server need to make listener event
   });
 });

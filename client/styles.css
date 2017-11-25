@@ -10,12 +10,12 @@ body {
   display: grid;
   width: 100%;
   height: 100vh;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 20% 60% 20%;
   grid-template-rows: 4% 55% 41%;
   grid-template-areas:
-  "navbar navbar"
-  "playlist videoplayer"
-  "playlist search";
+  "navbar navbar navbar"
+  "playlist videoplayer chat"
+  "playlist search chat";
 }
 
 .container {
@@ -24,11 +24,11 @@ body {
 }
 
 /***** Fonts *****/
-.resultTitle, .videoTitle, .playlist h3 {
+.resultTitle, .videoTitle, .playlist h3, .chat h3 {
   font-family: 'Lora', serif;
 }
 
-.videoTitle, .playlist h3 {
+.videoTitle, .playlist h3, .chat h3 {
   font-size: 1.1rem;
 }
 
@@ -193,5 +193,33 @@ body {
 }
 
 .searchbar input:hover {
+  opacity: 1;
+}
+
+/***** Chat component *****/
+.chat {
+  grid-area: chat;
+  padding: 18px;
+  background: #17191D;
+  border-left: 0.2px solid white;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.messageText {
+  display: block;
+  padding: 5px;
+  width: 97%;
+  margin: 0 auto;
+  border-radius: 15px;
+  border: 0.3px;
+  opacity: 0.8;
+  transition: opacity 0.4s;
+  position: absolute;
+  bottom: 20px;
+}
+
+.messageText input:hover {
   opacity: 1;
 }

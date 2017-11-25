@@ -6,8 +6,9 @@ import axios from 'axios';
 import VideoPlayer from './VideoPlayer';
 import Playlist from './Playlist';
 import Search from './Search';
+import ChatView from './ChatView';
 
-// const socket = io.connect(window.location.hostname);
+const socket = io.connect('localhost:5000');
 const roomSocket = io('/room');
 
 class RoomView extends React.Component {
@@ -23,6 +24,7 @@ class RoomView extends React.Component {
     this.onPlayerReady = this.onPlayerReady.bind(this);
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.saveToPlaylist = this.saveToPlaylist.bind(this);
+    this.emitMessage = this.emitMessage.bind(this);
   }
 
   componentDidMount() {
@@ -82,6 +84,14 @@ class RoomView extends React.Component {
     roomSocket.emit('saveToPlaylist', video);
   }
 
+  emitMessage(message) {
+    roomSocket.emit('emitMessage', {body:message});
+  }
+
+  pushingMessage(message) {
+    roomSocket.on('pushingMessage', console.log(message))
+  }
+
   renderRoom() {
     return axios.get('/renderRoom')
       .then(({ data }) => {
@@ -117,6 +127,7 @@ class RoomView extends React.Component {
           onStateChange={this.onPlayerStateChange}
         />
         <Search saveToPlaylist={this.saveToPlaylist} />
+        <div className="container chat"> <ChatView emitMessage={this.emitMessage} /></div>
       </div>
     );
   }
