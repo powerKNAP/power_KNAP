@@ -98,7 +98,6 @@ roomSpace.on('connection', (socket) => {
       .then(() => sendPlaylist());
   });
 
-<<<<<<< HEAD
   socket.on('removeFromPlaylist', (videoName) => {
     db.removeFromPlaylist(videoName)
       .then(() => sendPlaylist())
@@ -113,13 +112,8 @@ roomSpace.on('connection', (socket) => {
     } else {
       console.log(`${roomSpace.name} is now empty`);
     }
-=======
+
   socket.on('emitMessage', (message) => {
-<<<<<<< HEAD
-    console.log(message.body, 'this is my message text')
-    roomSpace.emit('pushingMessage', message.body);
->>>>>>> can send messages to server need to make listener event
-=======
     let sum = 0;
     for (let i = 0; i < 3; i ++) {
       sum += message.userName.charCodeAt(i);
@@ -128,6 +122,5 @@ roomSpace.on('connection', (socket) => {
     let userColor = colors[(sum % colors.length)];
     message.userColor = userColor;
     roomSpace.emit('pushingMessage', message);
->>>>>>> Chat client updated with messages and styling
   });
 });
