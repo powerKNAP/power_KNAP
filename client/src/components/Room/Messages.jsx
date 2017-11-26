@@ -7,7 +7,7 @@ const Messages = ({ messages }) => (
     return (
       <div>
         <span className="dateTime">[{message.date}]</span>
-        <span className="username" style={spanStyle}>{message.username}</span>: {message.message}
+        <span className="username" style={spanStyle}> {message.username}</span>: {message.message}
       </div>
     );
   }));

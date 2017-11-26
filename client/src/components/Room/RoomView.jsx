@@ -8,7 +8,7 @@ import Playlist from './Playlist';
 import Search from './Search';
 import ChatView from './ChatView';
 
-const socket = io.connect('localhost:5000');
+// const socket = io.connect(window.location.hostname);
 const roomSocket = io('/room');
 
 class RoomView extends React.Component {
@@ -17,14 +17,11 @@ class RoomView extends React.Component {
     this.state = {
       currentVideo: undefined,
       playlist: [],
-<<<<<<< HEAD
       startOptions: null,
       isHost: false,
-=======
       message: '',
       username: '',
-      date: ''
->>>>>>> Chat client updated with messages and styling
+      date: '',
     };
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     this.onPlayerReady = this.onPlayerReady.bind(this);
