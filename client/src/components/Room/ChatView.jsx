@@ -4,24 +4,36 @@ import MessageInput from './MessageInput';
 import Messages from './Messages';
 
 class ChatView extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      messages: ['one message', 'two messages'],
+      messages: [],
     };
     this.sendMessage = this.sendMessage.bind(this);
   }
 
-  sendMessage(message) {
-    this.props.emitMessage(message);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.message !== '') {
+      this.setState({
+        messages: this.state.messages.concat({
+          message: nextProps.message.body,
+          username: nextProps.message.userName,
+          date: nextProps.message.dateTime,
+          color: nextProps.message.userColor,
+        })
+      });
+    }
+  }
+  sendMessage(time, name, message) {
+    this.props.emitMessage(time, name, message);
   }
 
   render() {
     return (
       <div className="userChat">
         <h3>User Chat</h3>
-        <div className="messageContainer"> Messages <Messages messages={this.state.messages} /></div>
-        <div className="messageInput"><MessageInput sendMessage={this.sendMessage} /></div>
+        <div className="messageContainer"> <Messages messages={this.state.messages} /></div>
+        <div className="messageInput"><MessageInput socketID={this.props.socketID} sendMessage={this.sendMessage} /></div>
       </div>
     );
   }
@@ -29,6 +41,7 @@ class ChatView extends React.Component {
 
 ChatView.propTypes = {
   emitMessage: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
 };
 
 export default ChatView;

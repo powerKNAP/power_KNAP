@@ -65,7 +65,6 @@ const giveHostStatus = (host) => {
 roomSpace.on('connection', (socket) => {
   console.log(`connected to ${Object.keys(socket.nsp.sockets).length} socket(s)`);
 
-
   if (Object.keys(socket.nsp.sockets).length === 2) {
     roomHost = socket.id;
     giveHostStatus(roomHost);
@@ -116,8 +115,19 @@ roomSpace.on('connection', (socket) => {
     }
 =======
   socket.on('emitMessage', (message) => {
+<<<<<<< HEAD
     console.log(message.body, 'this is my message text')
     roomSpace.emit('pushingMessage', message.body);
 >>>>>>> can send messages to server need to make listener event
+=======
+    let sum = 0;
+    for (let i = 0; i < 3; i ++) {
+      sum += message.userName.charCodeAt(i);
+    }
+    let colors = ['#ffb3ba', '#ffd2b3', '#fff8b3', '#baffb3', '#bae1ff', '#e8baff'];
+    let userColor = colors[(sum % colors.length)];
+    message.userColor = userColor;
+    roomSpace.emit('pushingMessage', message);
+>>>>>>> Chat client updated with messages and styling
   });
 });

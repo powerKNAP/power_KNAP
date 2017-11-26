@@ -197,6 +197,15 @@ body {
 }
 
 /***** Chat component *****/
+.messageContainer {
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.username {
+  font-weight: 700;
+}
+
 .chat {
   grid-area: chat;
   padding: 18px;
@@ -210,7 +219,7 @@ body {
 .messageText {
   display: block;
   padding: 5px;
-  width: 97%;
+  width: 17%;
   margin: 0 auto;
   border-radius: 15px;
   border: 0.3px;
@@ -220,6 +229,6 @@ body {
   bottom: 20px;
 }
 
-.messageText input:hover {
+.messageText:hover {
   opacity: 1;
 }

@@ -17,8 +17,14 @@ class RoomView extends React.Component {
     this.state = {
       currentVideo: undefined,
       playlist: [],
+<<<<<<< HEAD
       startOptions: null,
       isHost: false,
+=======
+      message: '',
+      username: '',
+      date: ''
+>>>>>>> Chat client updated with messages and styling
     };
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     this.onPlayerReady = this.onPlayerReady.bind(this);
@@ -38,6 +44,11 @@ class RoomView extends React.Component {
       });
     });
     roomSocket.on('error', err => console.error(err));
+    roomSocket.on('pushingMessage', (message) => {
+      this.setState({
+        message: message,
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -84,12 +95,12 @@ class RoomView extends React.Component {
     roomSocket.emit('saveToPlaylist', video);
   }
 
-  emitMessage(message) {
-    roomSocket.emit('emitMessage', {body:message});
-  }
-
-  pushingMessage(message) {
-    roomSocket.on('pushingMessage', console.log(message))
+  emitMessage(time, name, message) {
+    roomSocket.emit('emitMessage', {
+      body: message,
+      userName: name,
+      dateTime: time,
+    });
   }
 
   renderRoom() {
@@ -120,6 +131,15 @@ class RoomView extends React.Component {
       <div className="room">
         <div className="container navbar">fam.ly</div>
         {playlistComponent}
+        <div className="container chat">
+          <ChatView
+            message={this.state.message}
+            date={this.state.dateTime}
+            username={this.state.username}
+            emitMessage={this.emitMessage}
+            socketID={roomSocket.io.engine.id}
+          />
+        </div>
         <VideoPlayer
           currentVideo={this.state.currentVideo}
           opts={this.state.startOptions}
@@ -127,7 +147,6 @@ class RoomView extends React.Component {
           onStateChange={this.onPlayerStateChange}
         />
         <Search saveToPlaylist={this.saveToPlaylist} />
-        <div className="container chat"> <ChatView emitMessage={this.emitMessage} /></div>
       </div>
     );
   }
