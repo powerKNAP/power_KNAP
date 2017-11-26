@@ -6,6 +6,7 @@ import axios from 'axios';
 import VideoPlayer from './VideoPlayer';
 import Playlist from './Playlist';
 import Search from './Search';
+import ChatView from './ChatView';
 
 // const socket = io.connect(window.location.hostname);
 const roomSocket = io('/room');
@@ -18,11 +19,15 @@ class RoomView extends React.Component {
       playlist: [],
       startOptions: null,
       isHost: false,
+      message: '',
+      username: '',
+      date: '',
     };
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     this.onPlayerReady = this.onPlayerReady.bind(this);
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.saveToPlaylist = this.saveToPlaylist.bind(this);
+    this.emitMessage = this.emitMessage.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +41,11 @@ class RoomView extends React.Component {
       });
     });
     roomSocket.on('error', err => console.error(err));
+    roomSocket.on('pushingMessage', (message) => {
+      this.setState({
+        message: message,
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -82,6 +92,14 @@ class RoomView extends React.Component {
     roomSocket.emit('saveToPlaylist', video);
   }
 
+  emitMessage(time, name, message) {
+    roomSocket.emit('emitMessage', {
+      body: message,
+      userName: name,
+      dateTime: time,
+    });
+  }
+
   renderRoom() {
     return axios.get('/renderRoom')
       .then(({ data }) => {
@@ -110,6 +128,15 @@ class RoomView extends React.Component {
       <div className="room">
         <div className="container navbar">fam.ly</div>
         {playlistComponent}
+        <div className="container chat">
+          <ChatView
+            message={this.state.message}
+            date={this.state.dateTime}
+            username={this.state.username}
+            emitMessage={this.emitMessage}
+            socketID={roomSocket.io.engine.id}
+          />
+        </div>
         <VideoPlayer
           currentVideo={this.state.currentVideo}
           opts={this.state.startOptions}

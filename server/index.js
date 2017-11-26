@@ -65,7 +65,6 @@ const giveHostStatus = (host) => {
 roomSpace.on('connection', (socket) => {
   console.log(`connected to ${Object.keys(socket.nsp.sockets).length} socket(s)`);
 
-
   if (Object.keys(socket.nsp.sockets).length === 2) {
     roomHost = socket.id;
     giveHostStatus(roomHost);
@@ -113,5 +112,16 @@ roomSpace.on('connection', (socket) => {
     } else {
       console.log(`${roomSpace.name} is now empty`);
     }
+  });
+
+  socket.on('emitMessage', (message) => {
+    let sum = 0;
+    for (let i = 0; i < 3; i ++) {
+      sum += message.userName.charCodeAt(i);
+    }
+    const colors = ['#ffb3ba', '#ffd2b3', '#fff8b3', '#baffb3', '#bae1ff', '#e8baff'];
+    const userColor = colors[(sum % colors.length)];
+    message.userColor = userColor;
+    roomSpace.emit('pushingMessage', message);
   });
 });
